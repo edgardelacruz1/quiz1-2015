@@ -6,17 +6,11 @@
 <br/>
 <label for="typ" class="rem">Tipo:</label>
 <select id="typ" name="quiz[tipo]">
-<% var valueTipos = ["otro", "humanidades", "ocio", "ciencia", "tecnologia" ];
-   var tipos = ["Otro", "Humanidades", "Ocio", "Ciencia", "Tecnología" ];
-  for( var i in tipos ) {
-    var selected = "";
-    valueTipo = valueTipos[i];
-    tipo = tipos[i];
-    if ( quiz.tipo === valueTipo ) {
-      selected = "selected";
-    } %>
-    <option value="<%= valueTipo %>" <%= selected %>><%= tipo %></option>
-<% } %>
+  <option value="otro" selected>Otro</option>
+  <option value="humanidades">Humanidades</option>
+  <option value="ocio">Ocio</option>
+  <option value="ciencia">Ciencia</option>
+  <option value="tecnologia">Tecnología</option>
 </select>
 <br/>
 <a href="/quizes">
