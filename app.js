@@ -29,6 +29,22 @@ app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Auto-logout
+app.use(function(req, res, next) {
+  console.log('start: '+req.session.startTime);
+  startTime = req.session.startTime;
+  var timeSession = Date.now() - startTime;
+  if(req.session.user && timeSession > 120000){
+    //req.session.destroy();
+    delete req.session.user;
+    res.redirect('/login');
+    return;
+  }
+  console.log('time: '+timeSession);
+  req.session.startTime = Date.now();
+  next();
+});
+
 //Helpers dinamicos:
 app.use(function(req, res, next) {
   //guardar path en session.redir para despues de login
