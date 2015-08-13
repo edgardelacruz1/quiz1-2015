@@ -23,13 +23,14 @@ exports.index = function(req, res) {
   if(req.query.search === undefined){ 
     search = '';
   }else{
-    search = req.query.search.replace(/ /gi, "%");
+    search = req.query.search.toLowerCase().trim();
+    search = search.replace(/\s/gi, "%");
   }
   console.log("search: "+search); 
   models.Quiz.findAll({
-      where: {
-        pregunta: { $like: '%'+search+'%' },
-      },
+      where: [
+       "lower(pregunta) like ?",'%'+search+'%' 
+      ],
       order: 'pregunta ASC'
     }).then(
     function(quizes){ 
@@ -46,7 +47,7 @@ exports.show = function(req, res) {
 // GET /quizes/:id/answer
 exports.answer = function(req, res){
   var resultado = 'Incorrecto';
-  if(req.query.respuesta === req.quiz.respuesta){
+  if(req.query.respuesta.trim().toLowerCase() === req.quiz.respuesta.trim().toLowerCase()){
     resultado = 'Correcto';
   }
   res.render('quizes/answer', { quiz: req.quiz, respuesta: resultado});
